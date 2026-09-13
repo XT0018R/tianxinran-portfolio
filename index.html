@@ -561,6 +561,29 @@
     background:var(--accent-soft);border-left:2.5px solid var(--accent);
     padding:9px 13px;margin:2px 0 10px;border-radius:0 4px 4px 0;
   }
+  .m-amz{
+    margin:18px 0;padding:15px 17px;background:var(--paper-2);
+    border:1px solid var(--line);border-radius:6px;
+  }
+  .m-amz .amz-tag{
+    font-family:var(--retro);font-size:12px;letter-spacing:1px;
+    color:var(--accent-deep);margin-bottom:12px;
+  }
+  .m-amz .amz-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .m-amz .amz-step{
+    display:flex;flex-direction:column;gap:3px;padding:9px 11px;
+    background:var(--paper);border:1px solid var(--line);border-radius:4px;
+  }
+  .m-amz .amz-step b{font-size:12.5px;color:var(--accent-deep)}
+  .m-amz .amz-step span{font-size:12px;line-height:1.65;color:var(--ink-soft)}
+  .m-amz .amz-list{
+    margin-top:11px;padding:9px 11px;background:var(--paper);
+    border:1px dashed var(--line);border-radius:4px;
+  }
+  .m-amz .amz-list span{display:block;font-family:var(--retro);font-size:10.5px;letter-spacing:.8px;color:var(--ink-soft);margin-bottom:6px}
+  .m-amz .amz-list code{font-family:var(--mono);font-size:11px;line-height:1.65;color:var(--ink);word-break:break-word}
+  .m-amz .amz-note{margin-top:9px;font-size:11px;color:var(--ink-soft);opacity:.8}
+  @media(max-width:640px){.m-amz .amz-grid{grid-template-columns:1fr}}
   .m-structs{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
   .m-structs span{
     display:inline-flex;align-items:baseline;gap:6px;
@@ -1609,6 +1632,18 @@ var PROJECTS = [
     ],
     tags:["品牌 0→1","卖点提炼","详情页转化链路","SKU 定位","宣传片剪辑","东方草本"],
     link:{url:"https://feishu.doubao.com/docx/WRVYdpv51oEfJ2xeL7kccGOPnfb",label:"查看产品介绍文档"},
+    amz:{
+      tag:"如果上亚马逊 · 跨境 Listing 实操（模拟推演）",
+      steps:[
+        {h:"① 选品决策",d:"现制茶饮 → 跨境可得形态：桂花乌龙茶包。原料真实对应、物流与保质期可行、卖点天然适配茶叶品类"},
+        {h:"② 英文 Listing",d:"标题 + 五点描述 + A+ 文案，主打 Zero Sugar / No Artificial Flavor / Hot & Iced Brew 三大卖点"},
+        {h:"③ 关键词矩阵",d:"核心大词 / 成交词 / 场景长尾 / 竞品词 四层结构，分别落位标题 · 五点 · 后台 Search Terms · 广告投放"},
+        {h:"④ A+ 与广告节奏",d:"复用 6 张详情页与 2 支视频为 A+ 模块；30 天 SP 广告节奏：自动跑词 → 手动精准 → 竞品 ASIN 定投"}
+      ],
+      listLabel:"Listing Title 示例",
+      listing:"CHAYIN Osmanthus Oolong Tea Bags — Hand-Picked Golden Osmanthus & Tieguanyin Oolong, No Artificial Flavor, Zero Sugar, Natural Caffeine, 20 Individually Wrapped Pyramid Bags, Hot & Iced Brew",
+      note:"模拟实操项目 · 方法基于 A9 算法逻辑与品类竞品分析，无真实销售数据"
+    },
     shotsCap:"详情页设计稿",
     videos:[
       {src:"chayin-promo.mp4",poster:"img08.jpg",cap:"茶隐 · 桂隐乌龙产品宣传片"},
@@ -1902,6 +1937,7 @@ function openModal(i){
   var rp=p.reports?"<h4>"+esc(p.reportsCap||"产出物 · 拆解报告")+"</h4><div class='m-reports'>"+p.reports.map(function(r,i){return "<button type='button' class='m-rep' onclick='openReport("+i+")'>"+esc(r.name)+"<span>阅读 ↗</span></button>";}).join("")+"</div>":"";
   var vd=p.videos?"<h4>品牌视频</h4><div class='m-videos'>"+p.videos.map(function(v){return "<div class='m-video'><video controls playsinline preload='metadata' poster='"+v.poster+"' src='"+v.src+"'></video><div class='vc'>"+esc(v.cap||"")+"</div></div>";}).join("")+"</div>":"";
   var sh=p.shots?"<h4>"+esc(p.shotsCap||"后台数据实拍")+"</h4><div class='m-shots'>"+p.shots.map(function(s){return "<figure><img loading='lazy' src='"+s.src+"'><figcaption>"+esc(s.cap)+"</figcaption></figure>";}).join("")+"</div>":"";
+  var amz=p.amz?"<div class='m-amz'><div class='amz-tag'>"+esc(p.amz.tag)+"</div><div class='amz-grid'>"+p.amz.steps.map(function(s){return "<div class='amz-step'><b>"+esc(s.h)+"</b><span>"+esc(s.d)+"</span></div>";}).join("")+"</div>"+(p.amz.listing?"<div class='amz-list'><span>"+esc(p.amz.listLabel||"Listing Title")+"</span><code>"+esc(p.amz.listing)+"</code></div>":"")+(p.amz.note?"<div class='amz-note'>"+esc(p.amz.note)+"</div>":"")+"</div>":"";
   mBody.innerHTML=
     "<div class='m-kick'>"+esc(p.kick)+"</div>"+
     "<div class='m-title'>"+esc(p.title)+"</div>"+
@@ -1909,6 +1945,7 @@ function openModal(i){
     rl+
     lk+
     "<div class='m-metrics'>"+mm+"</div>"+
+    amz+
     "<h4>做了什么 / 怎么做的</h4><ul>"+li+"</ul>"+
     st+
     wks+
